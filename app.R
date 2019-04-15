@@ -19,24 +19,94 @@ Skill <- list(
 library(shinydashboard)
 source("./R/Proben.R")
 
-# Define UI for application that draws a histogram
-ui <- fluidPage(
-   
-   # Application title
-   titlePanel("ShinyDSA: Charakter Organisator"),
-   
-   # Sidebar with a slider input for number of bins 
-   sidebarLayout(
-      sidebarPanel(width = 3,
-        radioButtons("talents", "Talente", choices = Skill[["Talent"]])
-      ),
-      
-      # Show a plot of the generated distribution
-      mainPanel(width = 6,
-         verbatimTextOutput("history")
+ui <- dashboardPage(
+  dashboardHeader(
+    title = "ShinyDSA", titleWidth = 187,
+    dropdownMenu(type = "tasks", badgeStatus = "success",
+                 taskItem(value = 90, color = "green", text = "APs einsetzen"),
+                 taskItem(value = 17, color = "aqua", text = "Task 2"),
+                 taskItem(value = 75, color = "yellow", text = "Task 3"),
+                 taskItem(value = 80, color = "red", text = "Task 4")
+                 )
+  ),
+  
+  dashboardSidebar(
+    sidebarMenu(
+      menuItem("Charakter", tabName = "Charakter", icon = icon("user"), badgeColor = "green"),
+      menuItem("Eingeschaften", tabName = "Eigenschaften", icon = icon("user-edit")),
+      menuItem("Talente", tabName = "Talente", icon = icon("user-md")),
+      menuItem("Kampf", tabName = "Kampf", icon = icon("user-ninja")),
+      menuItem("Zaubersprüche", tabName = "Zaubersprueche", icon = icon("user-graduate")),
+      menuItem("Inventar", tabName = "Source", icon = icon("th"))
       )
-   )
+  ),
+  
+  dashboardBody(
+    tabItems(
+      tabItem(tabName = "Charakter",
+              fluidRow(
+                box(title = "Persönliche Daten",
+                    textInput(inputId = "name", "Name"),
+                    textInput(inputId = "familie", "Familie"),
+                    textInput(inputId = "geburtsort", "Geburtsort"),
+                    textInput(inputId = "geburtsdatum", "Geburtsdatum"),
+                    sliderInput(inputId = "alter", "Alter", min = 15, max = 100, value = 18, step = 1, post = " Götterläufe"),
+                    selectInput(inputId = "geschlecht", "Geschlecht", c("Maennlich","Weiblich")),
+                    selectInput(inputId = "spezies", "Spezies", c("Elf","Halbelf","Mensch","Zwerg")),
+                    sliderInput(inputId = "groesse", "Größe", min = 0.5, max = 2.5, value = 1.7, step = 0.05, post = " Schritt"),
+                    sliderInput(inputId = "gewicht", "Gewicht", min = 50, max = 150, value = 70, step = 1, post = " Stein"),
+                    textInput(inputId = "haarfarbe", "Haarfarbe"),
+                    textInput(inputId = "augenfarbe", "Augenfarbe"),
+                    selectInput(inputId = "kultur", "Kultur", c("Ambosszwerge","Andergaster","Aranier","Auelfen","Bornlaender","Brilliantzwerge","Brobim","Erzzwerge","Firnelfen","Fjarninger","Horasier","Huegelzwerge","Maraskaner","Mhanadistani","Mittelreicher","Mohas","Nivesen","Norbarden","Nordaventurier","Nostrier","Novadis","Steppenelfen","Svelttaler","Thorwaler","Trollzacker","Waldelfen","Zahori","zyklopaer")),
+                    selectInput(inputId = "profession", "Profession", c("Adelsspross","Adersin-Schwertgeselle","Adliger","Akrobat","Armbrustschuetze","Aufseher","Baburiner Krieger","Bauer","andere")),
+                    textInput(inputId = "titel", "Titel"),
+                    textInput(inputId = "sozialstatus", "Sozialstatus"),
+                    textInput(inputId = "charakteristika", "Charakteristika")
+                )
+              )
+      ),
+      tabItem(tabName = "Eingeschaften",
+              fluidRow(
+                
+              )
+      ),
+      tabItem(tabName = "Talente",
+              fluidRow(
+              
+              )
+      ),
+      tabItem(tabName = "Kampf",
+              fluidRow(
+          
+              )
+      ),
+      tabItem(tabName = "Inventar",
+              fluidRow(
+          
+              )
+      )
+    )
+  )
 )
+
+
+# ui <- fluidPage(
+#    
+#    # Application title
+#    titlePanel("ShinyDSA: Charakter Organisator"),
+#    
+#    # Sidebar with a slider input for number of bins 
+#    sidebarLayout(
+#       sidebarPanel(width = 3,
+#         radioButtons("talents", "Talente", choices = Skill[["Talent"]])
+#       ),
+#       
+#       # Show a plot of the generated distribution
+#       mainPanel(width = 6,
+#          verbatimTextOutput("history")
+#       )
+#    )
+# )
 
 # Define server logic required to draw a histogram
 server <- function(input, output, clientData, session) {
